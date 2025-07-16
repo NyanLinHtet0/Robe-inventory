@@ -12,7 +12,9 @@ class Item:
     def sell_item(self, price, quantity, date):
         if self.quantity >= (self.sold + quantity):
             self.sold += quantity
-            self.sell_list.append({quantity,price,date})
+            self.sell_list.append((quantity,price,date))
+            if self.quantity == (self.sold):
+                self.sold = -1
             return True
         else:
             #unable to sell item, insuffecient stock
@@ -33,4 +35,7 @@ class Item:
         print(f"Price per item: ${(self.price+self.fees):.2f} ({self.price}+ {self.fees})")
         print(f"Total cost: ${self.get_total_cost():.2f}")
         print(f"Total Sold: {self.sold}")
+        if self.sold == -1:
+            for item in self.sell_list:
+                print(f"Quantity: {item[0]}, Price: {item[1]}, Date: {item[2]}")
 

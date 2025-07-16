@@ -9,9 +9,9 @@ class inventory:
         iden1, iden2 = item.id[0:2],item.id[2:4]
         if iden1 not in self.inven_data:
             self.inven_data.update({iden1: {}})
-            if iden2 not in self.inven_data[iden1]:
-                self.inven_data[iden1].update({iden2:[deque(),[]]})
-                self.inven_data[iden1][iden2][0].append(item)
+        if iden2 not in self.inven_data[iden1]:
+            self.inven_data[iden1].update({iden2:[deque(),[]]})
+            self.inven_data[iden1][iden2][0].append(item)
         else:
             self.inven_data[iden1][iden2][0].append(item)
 
@@ -24,35 +24,38 @@ class inventory:
                 sell_quant = quantity
                 while (sell_quant > 0):
                     for item_to_be_sold in self.inven_data[iden1][iden2][0]:
-                        avail_quantity = item_to_be_sold.quantity-item_to_be_sold.sold
-                        if(sell_quant >= avail_quantity):
-                            item_to_be_sold.sell_item(price,sell_quant,date)
-                            sell_quant -= avail_quantity
-                            que_pop_count+=1
-                        else:
-                            item_to_be_sold.sell_item(price,sell_quant,date)
-                            sell_quant -= avail_quantity
+                        if item_to_be_sold.sold != -1:
+                            avail_quantity = item_to_be_sold.quantity-item_to_be_sold.sold
+                            if(sell_quant >= avail_quantity):
+                                item_to_be_sold.sell_item(price,sell_quant,date)
+                                sell_quant -= avail_quantity
+                                que_pop_count+=1
+                            else:
+                                item_to_be_sold.sell_item(price,sell_quant,date)
+                                sell_quant -= avail_quantity
                 
         else:
             print("Item not in inventory")
         
 
     def print(self):
-        for item in self.inven_data['01']['01'][0]:
-            item.display()
-            print()
+        for iden1 in self.inven_data:
+            for iden2 in self.inven_data[iden1]:
+                for item in self.inven_data[iden1][iden2][0]:
+                    item.display()
+                    print()
 
 
 
-# Example usage
-item = Item("0101", "Malaysia", 300 , 30, 2, '01/14/2024')
-item2 = Item("0101", "Malaysia", 500 , 50, 2, '01/15/2024')
+# # # Example usage
+# item = Item("0101", "Malaysia", 300 , 30, 2, '01/14/2024')
+# item2 = Item("0101", "Malaysia", 500 , 50, 2, '01/15/2024')
 
 
-inven = inventory()
-inven.add_item(item)
-inven.add_item(item2)
-inven.sell_item("0101",400, 3, "02/14/2024")
+# inven = inventory()
+# inven.add_item(item)
+# inven.add_item(item2)
+# inven.sell_item("0101",400, 3, "02/14/2024")
 
 
-inven.print()
+# inven.print()
