@@ -28,12 +28,9 @@ class Item:
         print(f"{self.name}: ${self.price:.2f} x {self.quantity} = ${self.total_cost():.2f}")
         
     def display(self):
-        print(f"Item ID: {self.id}")
-        print(f"Name: {self.name}")
-        print(f"Price: ${self.price:.2f}")
-        print(f"Fees: ${self.fees:.2f}")
-        print(f"Quantity: {self.quantity}")
-        print(f"Cost per item (with fees): ${self.get_cost_per_item():.2f}")
+        print(f"Date: {self.date}")
+        print(f"Item info: {self.id}({self.name}) x {self.quantity}")
+        print(f"Price per item: ${(self.price+self.fees):.2f} ({self.price}+ {self.fees})")
         print(f"Total cost: ${self.get_total_cost():.2f}")
         print(f"Total Sold: {self.sold}")
 
