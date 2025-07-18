@@ -1,7 +1,5 @@
 class Item:
-    def __init__(self, id, name, price, fees, quantity, date):
-        self.id = id #unique identifier
-        self.name = name
+    def __init__(self, price, fees, quantity, date):
         self.price = price
         self.fees = fees
         self.quantity = quantity
@@ -31,9 +29,8 @@ class Item:
         
     def display(self):
         print(f"Date: {self.date}")
-        print(f"Item info: {self.id}({self.name}) x {self.quantity}")
-        print(f"Price per item: ${(self.price+self.fees):.2f} ({self.price}+ {self.fees})")
-        print(f"Total cost: ${self.get_total_cost():.2f}")
+        print(f"Item info:({self.quantity} x {(self.price+self.fees):.2f} ({self.price}+ {self.fees})")
+        print(f"Total cost: {self.get_total_cost():.2f}")
         print(f"Total Sold: {self.sold}")
         if self.sold == -1:
             for item in self.sell_list:

@@ -19,21 +19,23 @@ class inventory:
     def sell_item(self, id, price, quantity, date):
         iden1, iden2 = id[0:2],id[2:4]
         que_pop_count = 0
-        if iden1 in self.inven_data:
-            if iden2 in self.inven_data[iden1]:
-                sell_quant = quantity
-                while (sell_quant > 0):
-                    for item_to_be_sold in self.inven_data[iden1][iden2][0]:
-                        if item_to_be_sold.sold != -1:
-                            avail_quantity = item_to_be_sold.quantity-item_to_be_sold.sold
-                            if(sell_quant >= avail_quantity):
-                                item_to_be_sold.sell_item(price,sell_quant,date)
-                                sell_quant -= avail_quantity
-                                que_pop_count+=1
-                            else:
-                                item_to_be_sold.sell_item(price,sell_quant,date)
-                                sell_quant -= avail_quantity
-                
+        sell_quant = quantity
+
+        if self.inven_data[iden1][iden2][0]:
+            for item_to_be_sold in self.inven_data[iden1][iden2][0]:
+
+                if sell_quant == 0:
+                    break
+
+                avail_quantity = item_to_be_sold.quantity - item_to_be_sold.sold
+
+                if sell_quant >= avail_quantity:
+                    item_to_be_sold.sell_item(price, avail_quantity, date)
+                    sell_quant -= avail_quantity
+                    que_pop_count += 1
+                else:
+                    item_to_be_sold.sell_item(price, sell_quant, date)
+                    sell_quant = 0
         else:
             print("Item not in inventory")
         
