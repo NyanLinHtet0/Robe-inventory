@@ -1,41 +1,27 @@
 from item import Item
 from collections import deque
+from item_manager import Item_manager
 
 class inventory:
     def __init__(self):
         self.inven_data = {}
         
-    def add_item(self, item:Item):
-        iden1, iden2 = item.id[0:2],item.id[2:4]
+    def add_item(self, id, name, item:Item):
+        iden1, iden2 = id[0:2], id[2:4]
         if iden1 not in self.inven_data:
             self.inven_data.update({iden1: {}})
         if iden2 not in self.inven_data[iden1]:
-            self.inven_data[iden1].update({iden2:[deque(),[]]})
-            self.inven_data[iden1][iden2][0].append(item)
+            self.inven_data[iden1].update({iden2:Item_manager(id, name)})
+            self.inven_data[iden1][iden2].add_item(item)
         else:
-            self.inven_data[iden1][iden2][0].append(item)
+            self.inven_data[iden1][iden2].add_item(item)
 
     
     def sell_item(self, id, price, quantity, date):
         iden1, iden2 = id[0:2],id[2:4]
-        que_pop_count = 0
-        sell_quant = quantity
 
-        if self.inven_data[iden1][iden2][0]:
-            for item_to_be_sold in self.inven_data[iden1][iden2][0]:
-
-                if sell_quant == 0:
-                    break
-
-                avail_quantity = item_to_be_sold.quantity - item_to_be_sold.sold
-
-                if sell_quant >= avail_quantity:
-                    item_to_be_sold.sell_item(price, avail_quantity, date)
-                    sell_quant -= avail_quantity
-                    que_pop_count += 1
-                else:
-                    item_to_be_sold.sell_item(price, sell_quant, date)
-                    sell_quant = 0
+        if self.inven_data[iden1][iden2]:
+            self.inven_data[iden1][iden2].sell_item(price, quantity, date)
         else:
             print("Item not in inventory")
         
@@ -43,7 +29,7 @@ class inventory:
     def print(self):
         for iden1 in self.inven_data:
             for iden2 in self.inven_data[iden1]:
-                for item in self.inven_data[iden1][iden2][0]:
+                for item in self.inven_data[iden1][iden2].inven:
                     item.display()
                     print()
 

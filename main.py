@@ -1,5 +1,7 @@
 from item import Item
 from inventory import inventory
+from item_manager import Item_manager
+
 
 def input_item():
     id = input("Enter item ID (e.g., 0101): ")
@@ -19,10 +21,10 @@ def input_sale():
 
 def main():
     inven = inventory()
-    item = Item("0101", "Malaysia", 300 , 30, 2, '01/14/2024')
-    item2 = Item("0101", "Malaysia", 500 , 50, 2, '01/15/2024')
-    inven.add_item(item)
-    inven.add_item(item2)
+    item = Item(300 , 30, 2, '01/14/2024')
+    item2 = Item(500 , 50, 2, '01/15/2024')
+    inven.add_item("0101", "Malaysia", item)
+    inven.add_item("0101", "Malaysia",item2)
     inven.sell_item("0101",1000, 4, "02/14/2024")
     while True:
         print("\n=== Inventory Menu ===")

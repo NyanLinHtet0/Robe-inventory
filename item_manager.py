@@ -17,8 +17,17 @@ class Item_manager():
 
     def sell_item(self, sell_price, quantity, date):
         if self.count >= quantity:
+            sell_quant = quantity
             for item_to_be_sold in self.inven:
-                
+                if sell_quant == 0:
+                    break
+                avail_quantity = item_to_be_sold.quantity - item_to_be_sold.sold
+                if sell_quant >= avail_quantity:
+                    item_to_be_sold.sell_item(sell_price, avail_quantity, date)
+                    sell_quant -= avail_quantity
+                else:
+                    item_to_be_sold.sell_item(sell_price, sell_quant, date)
+                    sell_quant = 0  
         else:
             print("Not enough inventory")
     
