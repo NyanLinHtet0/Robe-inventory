@@ -5,7 +5,8 @@ from item_manager import Item_manager
 class inventory:
     def __init__(self):
         self.inven_data = {}
-        
+        self.inven_data_all = {}
+
     def add_item(self, id, name, item:Item):
         iden1, iden2 = id[0:2], id[2:4]
         if iden1 not in self.inven_data:

@@ -9,6 +9,8 @@ item = Item(300 , 30, 2, '01/14/2024')
 item2 = Item(500 , 50, 2, '01/15/2024')
 inven.add_item("0101", "Malaysia", item)
 inven.add_item("0101", "Malaysia",item2)
+inven.add_item("0102", "Singapore",item2)
+
 
 root = tk.Tk()
 root.title("Greeting App")
@@ -41,6 +43,7 @@ def on_tree_select(event):
         print("This is a child node.")
     
 # Add top-level items
+fast_access_dict = {}
 for iden1 in tree_constants:
     branch_name=tree_constants[iden1]
     parent_id =tree.insert("","end", text = branch_name)
@@ -53,8 +56,10 @@ tree.bind("<<TreeviewSelect>>", on_tree_select)
 
         
 # inventory_id = tree.insert("", "end", text="Inventory")
+tree.grid(row=0,column=0, sticky="nsw")
 
-
-tree.grid(column=0, sticky="nsew")
+# Display box on the right
+display_frame = tk.Frame(root, relief="groove", borderwidth=2, padx=10, pady=10)
+display_frame.grid(row=0, column=1, sticky="nsew", padx=0, pady=0)
 
 root.mainloop()
