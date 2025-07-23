@@ -30,5 +30,10 @@ class Item_manager():
                     sell_quant = 0  
         else:
             print("Not enough inventory")
+
+    def get_report_string(self):
+        string_result = f'ID: {self.id}\nName: {self.name}\nInventory: {self.count}'
+        print(string_result)
+        return string_result
     
 

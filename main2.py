@@ -10,56 +10,74 @@ item2 = Item(500 , 50, 2, '01/15/2024')
 inven.add_item("0101", "Malaysia", item)
 inven.add_item("0101", "Malaysia",item2)
 inven.add_item("0102", "Singapore",item2)
+inven.add_item("0103", "CYC",item2)
+
 
 
 root = tk.Tk()
 root.title("Greeting App")
 root.geometry("1000x800")
-# Configure 2 columns to share space equally
+# Configure 2 columns to share space respectfully
 root.grid_columnconfigure(0, weight=1)
-root.grid_columnconfigure(1, weight=5)
-
-# # Optional: Make rows flexible too
-# root.grid_rowconfigure(0, weight=1)
-# root.grid_rowconfigure(1, weight=1)
+root.grid_columnconfigure(1, weight=6)
 
 tree = ttk.Treeview(root)
-tree_constants = {
+tree_constants_l1 = {
     "01":"Thin Gan",
     "02":"Shoe",
     "03":"Tha Bate"
 }
+tree_constants_l2 = {
+    "0101":"Thin Gan",
+    "01":"Shoe",
+    "03":"Tha Bate"
+}
 
-def on_tree_select(event):
-    selected_id = tree.focus()  # ID of the selected node
-    item_text = tree.item(selected_id, "text")
-    print("Selected ID:", selected_id)
-    print("Selected Text:", item_text)
+def on_tree_select(event, display_frame):
+    selected_item = tree.selection()[0]
+    if selected_item in tree_object_map:
+        obj = tree_object_map[selected_item]
+        print("Selected object:", obj)
 
-    # Example: check if it's a top-level branch
-    if tree.parent(selected_id) == "":
-        print("This is a top-level branch!")
-    else:
-        print("This is a child node.")
-    
+        # Optional: Display in display_frame
+        for widget in display_frame.winfo_children():
+            widget.destroy()
+
+        tk.Label(
+            display_frame,
+            text=obj.get_report_string(),
+            anchor="w",         # text inside widget is left-aligned
+            justify="left"      # for multi-line text
+        ).grid(row=0, column=0, sticky="w")
+
+
+
+tree_object_map = {}  # Maps treeview item IDs to actual objects
+
+# inventory_id = tree.insert("", "end", text="Inventory")
+tree.grid(row=0,column=0, sticky="nsew")
 # Add top-level items
-fast_access_dict = {}
-for iden1 in tree_constants:
-    branch_name=tree_constants[iden1]
-    parent_id =tree.insert("","end", text = branch_name)
+for iden1 in tree_constants_l1:
+    branch_name = tree_constants_l1[iden1]
+    parent_id = tree.insert("", "end", text=branch_name)
+    
     if iden1 in inven.inven_data:
         for iden2 in inven.inven_data[iden1]:
-            tree.insert(parent_id,"end", text = inven.inven_data[iden1][iden2].name)
-            
-         
-tree.bind("<<TreeviewSelect>>", on_tree_select)
-
-        
-# inventory_id = tree.insert("", "end", text="Inventory")
-tree.grid(row=0,column=0, sticky="nsw")
+            obj = inven.inven_data[iden1][iden2]  # Your actual object
+            child_id = tree.insert(parent_id, "end", text=obj.name)
+            tree_object_map[child_id] = obj  # Store the reference
 
 # Display box on the right
-display_frame = tk.Frame(root, relief="groove", borderwidth=2, padx=10, pady=10)
+display_frame = tk.Frame(root, relief="groove", borderwidth=2, padx=0, pady=0)
 display_frame.grid(row=0, column=1, sticky="nsew", padx=0, pady=0)
+         
+tree.bind("<<TreeviewSelect>>", lambda event: on_tree_select(event, display_frame))
+
+
+        
+
+
+
+
 
 root.mainloop()
