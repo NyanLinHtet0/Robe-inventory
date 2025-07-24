@@ -10,11 +10,24 @@ item2 = Item(500 , 50, 2, '01/15/2024')
 inven.add_item("0101", "Malaysia", item)
 inven.add_item("0101", "Malaysia",item2)
 inven.add_item("0102", "Singapore",item2)
-inven.add_item("0103", "CYC",item2)
+inven.add_item("0103", "Singaporezzzzzzzzzzzzzzzzzz",item2)
+inven.add_item("0104", "CYC",item2)
 
 
 
 root = tk.Tk()
+style = ttk.Style()
+style.configure("Treeview.Heading", font=("Arial", 14))   # Header font
+style.configure("Treeview", font=("Arial", 12))           # Cell font
+
+
+
+# Display box on the right
+display_frame = tk.Frame(root, relief="groove", borderwidth=2, padx=0, pady=0)
+display_frame.grid(row=0, column=1, sticky="nsew", padx=0, pady=0)
+
+
+
 root.title("Greeting App")
 root.geometry("1000x800")
 # Configure 2 columns to share space respectfully
@@ -46,7 +59,9 @@ def on_tree_select(event, display_frame):
         tk.Label(
             display_frame,
             text=obj.get_report_string(),
-            anchor="w",         # text inside widget is left-aligned
+            anchor="w",
+            font=("Arial", 30),
+            # text inside widget is left-aligned
             justify="left"      # for multi-line text
         ).grid(row=0, column=0, sticky="w")
 
@@ -67,9 +82,7 @@ for iden1 in tree_constants_l1:
             child_id = tree.insert(parent_id, "end", text=obj.name)
             tree_object_map[child_id] = obj  # Store the reference
 
-# Display box on the right
-display_frame = tk.Frame(root, relief="groove", borderwidth=2, padx=0, pady=0)
-display_frame.grid(row=0, column=1, sticky="nsew", padx=0, pady=0)
+
          
 tree.bind("<<TreeviewSelect>>", lambda event: on_tree_select(event, display_frame))
 

@@ -32,7 +32,7 @@ class Item_manager():
             print("Not enough inventory")
 
     def get_report_string(self):
-        string_result = f'ID: {self.id}\nName: {self.name}\nInventory: {self.count}'
+        string_result = f'ID: {self.id}\tName: {self.name}\tCount: {self.count}'
         print(string_result)
         return string_result
     
